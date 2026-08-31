@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -8,15 +8,22 @@ import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import apiService from "@/services/api";
 import { useAuthStore } from "@/store";
 
-export default function RegisterPage() {
+function RegisterContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login } = useAuthStore();
 
-  const [step, setStep] = useState<"role" | "details">(
-    searchParams.get("role") ? "details" : "role"
-  );
-  const [selectedRole, setSelectedRole] = useState(searchParams.get("role") || "");
+  const [step, setStep] = useState<"role" | "details">("role");
+  const [selectedRole, setSelectedRole] = useState("");
+
+  // Handle search params on client side only
+  useEffect(() => {
+    const roleFromParams = searchParams?.get("role");
+    if (roleFromParams) {
+      setSelectedRole(roleFromParams);
+      setStep("details");
+    }
+  }, [searchParams]);
 
   const [formData, setFormData] = useState({
     full_name: "",
@@ -346,5 +353,13 @@ export default function RegisterPage() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <RegisterContent />
+    </React.Suspense>
   );
 }
