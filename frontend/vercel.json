@@ -1,34 +1,8 @@
 {
-  "projectId": "skillsync-ai",
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
   "env": {
     "NEXT_PUBLIC_API_URL": "https://skillsync-api.vercel.app"
-  },
-  "regions": ["lhr1"],
-  "trailingSlash": false,
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        }
-      ]
-    }
-  ]
+  }
 }
