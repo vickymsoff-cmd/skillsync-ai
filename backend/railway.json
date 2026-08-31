@@ -1,0 +1,29 @@
+# Railway.app Deployment Configuration
+
+{
+  "build": {
+    "builder": "dockerfile",
+    "buildCommand": "pip install -r requirements.txt"
+  },
+  "start": "uvicorn app.main:app --host 0.0.0.0 --port $PORT",
+  "env": {
+    "RAILWAY_DOCKERFILE_PATH": "./Dockerfile"
+  },
+  "variables": {
+    "DATABASE_URL": {
+      "description": "PostgreSQL connection string (set in Railway UI)",
+      "value": "${{ secrets.DATABASE_URL }}"
+    },
+    "SECRET_KEY": {
+      "description": "JWT secret key",
+      "value": "${{ secrets.SECRET_KEY }}"
+    },
+    "ALGORITHM": "HS256",
+    "ACCESS_TOKEN_EXPIRE_MINUTES": "30",
+    "REFRESH_TOKEN_EXPIRE_DAYS": "7",
+    "CORS_ORIGINS": "https://skillsync-ai.vercel.app,https://www.skillsync-ai.vercel.app"
+  },
+  "plugins": {
+    "postgres": "latest"
+  }
+}

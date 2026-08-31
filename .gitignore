@@ -1,0 +1,49 @@
+# Frontend (Node.js/Next.js)
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+frontend/.env.*.local
+frontend/out/
+frontend/dist/
+frontend/.turbo/
+frontend/.vercel
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# Backend (Python)
+backend/__pycache__/
+backend/*.py[cod]
+backend/*$py.class
+backend/*.so
+backend/.env
+backend/.env.local
+backend/venv/
+backend/ENV/
+backend/env/
+backend/.vscode/
+backend/.idea/
+backend/*.egg-info/
+backend/dist/
+backend/build/
+backend/.pytest_cache/
+backend/htmlcov/
+backend/.coverage
+
+# General
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.log
+.env
+.env.local
+
+# IDE
+*.sublime-project
+*.sublime-workspace
+
+# OS
+Thumbs.db
