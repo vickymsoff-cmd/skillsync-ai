@@ -1,5 +1,7 @@
 {
   "env": {
     "NEXT_PUBLIC_API_URL": "https://skillsync-api.vercel.app"
-  }
+  },
+  "buildCommand": "npm install --legacy-peer-deps && npm run build",
+  "installCommand": "npm install --legacy-peer-deps"
 }
