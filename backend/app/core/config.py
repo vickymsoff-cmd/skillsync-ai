@@ -1,38 +1,51 @@
-from pydantic_settings import BaseSettings
+﻿import json
 from typing import List
-import os
+
+from pydantic import Field
+from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "SkillSync AI"
     PROJECT_VERSION: str = "1.0.0"
-    
+
     # Database
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://postgres:password@localhost:5432/skillsync_ai")
-    
+    DATABASE_URL: str = Field(default="sqlite:///./skillsync.db")
+
     # JWT
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "your-secret-key-change-in-production")
+    SECRET_KEY: str = Field(default="your-secret-key-change-in-production")
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
-    
-    # CORS - Allow deployed frontend and localhost
-    CORS_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "https://frontend-jade-two-24.vercel.app",
-        "https://*.vercel.app"
-    ]
-    
+
+    # CORS - Accept either comma-separated values or JSON array values
+    CORS_ORIGINS: str = Field(default="http://localhost:3000,http://localhost:3001,https://frontend-jade-two-24.vercel.app,https://skillsync-ai.vercel.app,https://frontend-ebl8o7udw-vickymsoff-cmd.vercel.app")
+
+    @property
+    def cors_origins_list(self) -> List[str]:
+        value = self.CORS_ORIGINS or ""
+        if not value.strip():
+            return []
+        if value.strip().startswith("["):
+            try:
+                parsed = json.loads(value)
+                if isinstance(parsed, list):
+                    return [str(item).strip() for item in parsed if str(item).strip()]
+            except json.JSONDecodeError:
+                pass
+        return [item.strip() for item in value.split(",") if item.strip()]
+
     # Email
     SMTP_SERVER: str = "smtp.gmail.com"
     SMTP_PORT: int = 587
     SENDER_EMAIL: str = "noreply@skillsync.ai"
     SENDER_PASSWORD: str = ""
-    
+
     # API
     API_PREFIX: str = "/api"
-    
+
     class Config:
         env_file = ".env"
+
 
 settings = Settings()

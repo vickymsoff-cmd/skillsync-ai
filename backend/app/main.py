@@ -1,18 +1,46 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.api.routes import (
+    academicians,
+    analytics,
+    applications,
+    assessments,
+    auth,
+    industries,
+    opportunities,
+    portfolios,
+    recommendations,
+    skills,
+    students,
+    users,
+)
 from app.core.config import settings
-from app.api.routes import auth, users, students, academicians, industries, skills, assessments, opportunities, applications, portfolios, recommendations, analytics
+from app.core.database import Base, engine
 
 app = FastAPI(
     title="SkillSync AI",
     description="AI-Powered Academia-Industry Collaboration Platform",
-    version="1.0.0"
+    version="1.0.0",
 )
+
+
+def init_db():
+    Base.metadata.create_all(bind=engine)
+
+
+init_db()
+
+
+@app.on_event("startup")
+def startup_event():
+    init_db()
+
 
 # CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=settings.cors_origins_list,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

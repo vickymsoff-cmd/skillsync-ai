@@ -1,5 +1,3 @@
-# Railway.app Deployment Configuration
-
 {
   "build": {
     "builder": "dockerfile",

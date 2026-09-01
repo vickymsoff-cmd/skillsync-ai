@@ -144,8 +144,6 @@ class InstitutionProfile(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     user = relationship("User", back_populates="institution_profile")
-    students = relationship("StudentProfile", back_populates="institution")
-    academicians = relationship("AcademicianProfile", back_populates="institution")
 
 class Institution(Base):
     __tablename__ = "institutions"

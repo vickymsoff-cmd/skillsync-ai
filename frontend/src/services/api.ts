@@ -1,7 +1,8 @@
 import axios, { AxiosInstance } from "axios";
 import { AuthTokens, LoginRequest, RegisterRequest } from "@/types";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+// Use relative URLs for API endpoints (they're in the same application now)
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 class ApiService {
   private api: AxiosInstance;
