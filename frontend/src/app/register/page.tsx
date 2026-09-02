@@ -74,11 +74,11 @@ function RegisterContent() {
         role: selectedRole,
       });
 
-      const user = await apiService.getCurrentUser();
-
       // Store tokens
       localStorage.setItem("access_token", tokens.access_token);
       localStorage.setItem("refresh_token", tokens.refresh_token);
+
+      const user = await apiService.getCurrentUser();
 
       // Update auth state
       login(user, tokens);

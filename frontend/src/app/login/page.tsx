@@ -25,11 +25,12 @@ export default function LoginPage() {
 
     try {
       const tokens = await apiService.login({ email, password });
-      const user = await apiService.getCurrentUser();
 
       // Store tokens
       localStorage.setItem("access_token", tokens.access_token);
       localStorage.setItem("refresh_token", tokens.refresh_token);
+
+      const user = await apiService.getCurrentUser();
 
       // Update auth state
       login(user, tokens);
@@ -80,7 +81,7 @@ export default function LoginPage() {
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
             {/* Email */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -90,6 +91,8 @@ export default function LoginPage() {
                 <Mail className="absolute left-3 top-3 text-gray-400" size={20} />
                 <input
                   type="email"
+                  name="email"
+                  autoComplete="off"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -108,6 +111,8 @@ export default function LoginPage() {
                 <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="password"
+                  autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required

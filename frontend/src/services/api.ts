@@ -1,8 +1,12 @@
 import axios, { AxiosInstance } from "axios";
 import { AuthTokens, LoginRequest, RegisterRequest } from "@/types";
 
-// Use relative URLs for API endpoints (they're in the same application now)
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
+// Use Railway in production even when the Vercel variable was not configured.
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === "production"
+    ? "https://skillsync-api.railway.app"
+    : "");
 
 class ApiService {
   private api: AxiosInstance;

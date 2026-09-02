@@ -24,16 +24,28 @@ class Settings(BaseSettings):
     @property
     def cors_origins_list(self) -> List[str]:
         value = self.CORS_ORIGINS or ""
-        if not value.strip():
-            return []
+        configured_origins: List[str] = []
         if value.strip().startswith("["):
             try:
                 parsed = json.loads(value)
                 if isinstance(parsed, list):
-                    return [str(item).strip() for item in parsed if str(item).strip()]
+                    configured_origins = [
+                        str(item).strip() for item in parsed if str(item).strip()
+                    ]
             except json.JSONDecodeError:
                 pass
-        return [item.strip() for item in value.split(",") if item.strip()]
+        else:
+            configured_origins = [
+                item.strip() for item in value.split(",") if item.strip()
+            ]
+
+        # Keep the deployed frontend origins available even if Railway's
+        # CORS_ORIGINS variable contains an outdated value.
+        required_origins = [
+            "https://skillsync-ai.vercel.app",
+            "https://skillsync-ai-mkq3.vercel.app",
+        ]
+        return list(dict.fromkeys(configured_origins + required_origins))
 
     # Email
     SMTP_SERVER: str = "smtp.gmail.com"
